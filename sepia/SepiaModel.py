@@ -1014,7 +1014,7 @@ class SepiaModel:
                     # Get possible category values, excluding current value
                     cat_vals = [i for i in range(1, self.data.t_cat_ind[ind]+1) if i != prm.val[arr_ind]]
                     # Choose one
-                    cand = np.random.choice(cat_vals, 1)
+                    cand = np.random.choice(cat_vals)
                 else:
                     cand = prm.mcmc.draw_candidate(arr_ind, do_propMH)
                 # Set value to candidate

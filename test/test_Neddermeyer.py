@@ -5,7 +5,18 @@ from sepia.SepiaPredict import SepiaEmulatorPrediction
 from sepia.SepiaPredict import SepiaFullPrediction
 import numpy as np
 from nedderimp import nedderimp
-from scipy.interpolate import interp2d
+from scipy.interpolate import RegularGridInterpolator
+
+
+def interp2d(x, y, z):
+    rgi = RegularGridInterpolator((np.asarray(y), np.asarray(x)), np.asarray(z), bounds_error=False, fill_value=None)
+
+    def f(xn, yn):
+        xn = np.sort(np.atleast_1d(xn))
+        yn = np.sort(np.atleast_1d(yn))
+        Y, X = np.meshgrid(yn, xn, indexing='ij')
+        return rgi(np.column_stack([Y.ravel(), X.ravel()])).reshape(len(yn), len(xn))
+    return f
 from copy import deepcopy
 import unittest
 

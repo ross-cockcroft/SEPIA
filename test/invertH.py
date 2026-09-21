@@ -72,7 +72,7 @@ def invertHtrue(h, g, C, R, et):
             t_tmp = optimize.fmin(banana, t0, disp=False)
             
             # add observation error
-            t[rr,hh] = t_tmp + et*np.random.uniform()
+            t[rr,hh] = t_tmp[0] + et*np.random.uniform()
             
     return(t)
 
@@ -119,6 +119,6 @@ def invertHsim(h, g, C, R):
                     t_tmp = optimize.fmin(banana,t0,disp=False)
                     
                     #t[rr,hh,cc,gg] = t_tmp
-                    t[rc,hh] = t_tmp
+                    t[rc,hh] = t_tmp[0]
     return(t)
 

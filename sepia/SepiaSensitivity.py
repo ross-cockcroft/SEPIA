@@ -324,7 +324,7 @@ def component_sens(x, y, beta, lamUz, lamWs, xe, ngrid, varlist, jelist, rg, cat
             ll = [jj]
             Js = np.setxor1d(np.arange(p), ll)
             u2 = np.prod(c3[:, ll], 1)
-            ste[ii, jj] = c1[ll]/lamUzi - np.trace(np.squeeze(Q[ii, :, :]) @ varf(m, p, Js, C2, u2))/lamUzi**2 - e2[ii]
+            ste[ii, jj] = c1[jj]/lamUzi - np.trace(np.squeeze(Q[ii, :, :]) @ varf(m, p, Js, C2, u2))/lamUzi**2 - e2[ii]
             ste[ii, jj] = 1 - ste[ii, jj]/vt[ii]
         # two-factor interaction indices, joint effects
         if varlist is not None:

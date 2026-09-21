@@ -10,6 +10,14 @@ import scipy as sp
 
 sns.set(style="ticks")
 
+def _unshare(ax, which, other):
+    grouper = ax.get_shared_x_axes() if which == 'x' else ax.get_shared_y_axes()
+    if hasattr(grouper, 'remove'):
+        grouper.remove(other)
+    else:
+        ax._shared_axes[which].remove(other)
+
+
 def theta_pairs(samples_dict,design_names=None,native=False,lims=None,theta_ref=None,save=None):
     """
     Create pairs plot of sampled thetas.
@@ -48,12 +56,12 @@ def theta_pairs(samples_dict,design_names=None,native=False,lims=None,theta_ref=
         if lims is not None:
             # Undo sharing of axes
             for i in range(n_theta):
-                [g.diag_axes[i].get_shared_x_axes().remove(axis) for axis in g.axes.ravel()];
+                [_unshare(g.diag_axes[i], 'x', axis) for axis in g.axes.ravel()];
                 for j in range(n_theta):
-                    [g.axes[i, j].get_shared_x_axes().remove(axis) for axis in g.axes.ravel()];
-                    [g.axes[i, j].get_shared_y_axes().remove(axis) for axis in g.axes.ravel()];
-                    [g.axes[i, j].get_shared_x_axes().remove(axis) for axis in g.diag_axes.ravel()];
-                    [g.axes[i, j].get_shared_y_axes().remove(axis) for axis in g.diag_axes.ravel()];
+                    [_unshare(g.axes[i, j], 'x', axis) for axis in g.axes.ravel()];
+                    [_unshare(g.axes[i, j], 'y', axis) for axis in g.axes.ravel()];
+                    [_unshare(g.axes[i, j], 'x', axis) for axis in np.ravel(g.diag_axes)];
+                    [_unshare(g.axes[i, j], 'y', axis) for axis in np.ravel(g.diag_axes)];
             # Set limits
             for i in range(n_theta):
                 for j in range(n_theta):

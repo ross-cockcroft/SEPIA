@@ -83,8 +83,8 @@ class SepiaHierarchicalThetaModels:
             r = self.hier_theta_inds[i, :]
             for j in range(r.shape[0]):
                 if r[j] > -1:
-                    self.model_list[j].params.theta.prior.params[0][0, r[j]] = hier_mu[i].val.copy()
-                    self.model_list[j].params.theta.prior.params[1][0, r[j]] = np.sqrt(1./hier_lambda[i].val.copy())
+                    self.model_list[j].params.theta.prior.params[0][0, r[j]] = hier_mu[i].val.item()
+                    self.model_list[j].params.theta.prior.params[1][0, r[j]] = np.sqrt(1./hier_lambda[i].val.item())
 
     def get_samples(self, nburn=0, sampleset=None, numsamples=None, flat=True):
         """

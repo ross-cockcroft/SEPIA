@@ -28,7 +28,7 @@ class SepiaDistCovTestCase(unittest.TestCase):
         sqdistmanual = np.zeros((n, n))
         for i in range(n):
             for j in range(n):
-                sqdistmanual[i, j] = np.square(self.x1[i] - self.x1[j])
+                sqdistmanual[i, j] = np.square(self.x1[i] - self.x1[j]).item()
         cov = SepiaDistCov(self.x1)
         sqdistmat = np.zeros((cov.n, cov.n))
         sqdistmat[cov.ind] = cov.sqdist[:, 0]
@@ -58,7 +58,7 @@ class SepiaDistCovTestCase(unittest.TestCase):
         sqdistmanual = np.zeros((m, n))
         for i in range(m):
             for j in range(n):
-                sqdistmanual[i, j] = np.square(self.x1[i] - self.x2[j])
+                sqdistmanual[i, j] = np.square(self.x1[i] - self.x2[j]).item()
         cov = SepiaDistCov(self.x1, self.x2)
         sqdistmat = np.zeros((cov.n, cov.m))
         sqdistmat[cov.ind] = np.sum(cov.sqdist, axis=-1)
@@ -90,7 +90,7 @@ class SepiaDistCovTestCase(unittest.TestCase):
                 nug = 0
                 if i == j:
                     nug = 1/self.lams
-                covmanual[i, j] = np.exp(-np.square(self.x1[i] - self.x1[j]) * np.squeeze(self.beta1))/self.lamz + nug
+                covmanual[i, j] = np.asarray(np.exp(-np.square(self.x1[i] - self.x1[j]) * np.squeeze(self.beta1))/self.lamz + nug).item()
         cov = SepiaDistCov(self.x1).compute_cov_mat(self.beta1, self.lamz, self.lams)
         self.assertTrue(np.allclose(covmanual, cov))
 
@@ -113,7 +113,7 @@ class SepiaDistCovTestCase(unittest.TestCase):
         covmanual = np.zeros((m, n))
         for i in range(m):
             for j in range(n):
-                covmanual[i, j] = np.exp(-np.square(self.x1[i] - self.x2[j]) * np.squeeze(self.beta1))/self.lamz
+                covmanual[i, j] = np.asarray(np.exp(-np.square(self.x1[i] - self.x2[j]) * np.squeeze(self.beta1))/self.lamz).item()
         cov = SepiaDistCov(self.x1, self.x2).compute_cov_mat(self.beta1, self.lamz)
         self.assertTrue(np.allclose(covmanual, cov))
 
