@@ -77,7 +77,7 @@ class DataContainer(object):
                 np.linalg.cholesky(mat)
             except:
                 raise ValueError('Sigy seems to not be a valid covariance matrix')
-            if len(self.Sigy) != ell_obs:
+            if mat.shape[0] != ell_obs:
                 raise ValueError('Sigy must be the same size as the number of observations')
         if self.Sigy is not None:
             if isinstance(self.y,list):
@@ -85,7 +85,7 @@ class DataContainer(object):
                     raise ValueError('for ragged obs Sigy must also be a list of same len')
                 for ii in range(len(self.Sigy)):
                     self.Sigy[ii]=np.atleast_2d(self.Sigy[ii])
-                    val_Sigy(self.Sigy[ii],self.y.shape[1])
+                    val_Sigy(self.Sigy[ii],self.y[ii].shape[0])
             else:
                 self.Sigy = np.atleast_2d(self.Sigy)
                 val_Sigy(self.Sigy, self.y.shape[1])
